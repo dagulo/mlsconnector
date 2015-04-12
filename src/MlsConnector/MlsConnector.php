@@ -33,7 +33,7 @@ class MlsConnector {
             return false;
         }
 
-        if( empty( $endPoint ) ){
+        if( empty( $this->endPoint ) ){
             $this->errors[] = ' Invalid endpoint url';
             return false;
         }
@@ -155,7 +155,7 @@ class MlsConnector {
         return $this->sendRequest( 'getCoverageLookup' , $data );
     }
 
-    public function sendRequest( $request , $data )
+    private function sendRequest( $request , $data )
     {
 
         if( ! $this->checkCredentials() ){
