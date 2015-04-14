@@ -123,11 +123,6 @@ class MlsConnector {
         return $this->sendRequest( 'getLatestPropertiesByZip' , $data );
     }
 
-    public function getHighResPhotos()
-    {
-        //$post['matrix_id'] = $matrix_id;
-        //return $this->getRequest( 'getHighResPhotosByMatrixID' , $post );
-    }
 
     public function getRelatedPropertiesByMatrixID( $matrix_id )
     {
@@ -148,9 +143,20 @@ class MlsConnector {
         return $this->uri;
     }
 
+    public function getComparable( $listing_id )
+    {
+        $data['listing_id'] 	=  $listing_id;
+        return $this->sendRequest( 'getComparable' , $data );
+    }
+
+    public function getFeatured()
+    {
+        return $this->sendRequest( 'getFeatured' , [] );
+    }
+
     public function getCoverageLookup( $mls )
     {
-        $data[ 'mls' ] = $mls;
+        $data[ 'mls' ] =  $mls;
         $data[ 'verb' ] = 'GET';
         return $this->sendRequest( 'getCoverageLookup' , $data );
     }
