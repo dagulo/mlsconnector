@@ -174,7 +174,7 @@ class MlsConnector {
 
     public function getFeatured()
     {
-        return $this->sendRequest( 'getFeatured' , [] );
+        return $this->sendRequest( 'getFeatured' , array() );
     }
 
     public function getCoverageLookup( $mls )
@@ -182,6 +182,18 @@ class MlsConnector {
         $data[ 'mls' ] =  $mls;
         $data[ 'verb' ] = 'GET';
         return $this->sendRequest( 'getCoverageLookup' , $data );
+    }
+
+    public function getCitiesByMls( $mls )
+    {
+        $data[ 'mls' ] =  $mls;
+        return $this->sendRequest( 'getCitiesByMls' , $data );
+    }
+
+    public function getCommunitiesByCityId( $cityid )
+    {
+        $data[ 'cityid' ] =  $cityid;
+        return $this->sendRequest( 'getCommunitiesByCityId' , $data );
     }
 
     private function sendRequest( $request , $data )
