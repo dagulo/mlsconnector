@@ -15,6 +15,8 @@ class MlsConnector {
     protected $uri;
     protected $sourceid;
 
+    protected $data = array();
+
     public function __construct( $key , $token, $endPoint , $version = 'v2' )
     {
         $endPoint = substr( $endPoint , -1 ) == '/' ? $endPoint : $endPoint.'/' ;
@@ -196,6 +198,32 @@ class MlsConnector {
         return $this->sendRequest( 'getCommunitiesByCityId' , $data );
     }
 
+    /***
+     * Adding data key value pair
+     * @param $key
+     * @param $value
+     */
+    public function addData( $key , $value )
+    {
+        //check if both key and value has values
+        if( ! $key || ! $value ){
+            throw new \Exception( 'Invalid key value pair' );
+        }
+
+        // check if key is str
+        if( ! is_string( $key ) ){
+            throw new \Exception( 'Keys must be a string data type' );
+        }
+
+        if( is_string( $value ) || is_array( $value ) || is_bool( $value ) ){
+            // do nothing
+        }else{
+            throw new \Exception( 'Value must be a string, array or boolean data type only' );
+        }
+
+        $this->data[ $key ] = $value;
+    }
+
     private function sendRequest( $request , $data )
     {
 
@@ -214,6 +242,10 @@ class MlsConnector {
 
         $uri    =   strtolower( $this->endPoint.$this->version.'/'.$request );
         $this->uri =  $uri;
+
+        foreach( $this->data as $k => $v ){
+            $data[$k] = $v;
+        }
 
         $data	=	http_build_query( $data );
         $etoken =   hash_hmac( 'sha256' , $data , $this->token ) ;
